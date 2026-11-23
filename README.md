@@ -3,7 +3,7 @@
 One Next.js project serves both:
 
 - **amarhelps.com**: landing page, waitlist, Privacy Policy (`/privacy`), Terms (`/terms`) and data deletion instructions (`/data-deletion`).
-- **app.amarhelps.com**: the phone-first PWA ("Amar Helps Post"). The code lives under `src/app/app/`; `src/proxy.ts` maps the `app.` subdomain onto it.
+- **app.amarhelps.com**: the phone-first PWA ("HelpToPost"). The code lives under `src/app/app/`; `src/proxy.ts` maps the `app.` subdomain onto it.
 
 Locally the app is at `http://localhost:3000/app`.
 

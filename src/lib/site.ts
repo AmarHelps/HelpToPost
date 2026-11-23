@@ -1,7 +1,7 @@
 // Single place for names and contact details used across the site and the legal pages.
 export const site = {
   name: "Amar Helps",
-  appName: "Amar Helps Post",
+  appName: "HelpToPost",
   domain: "amarhelps.com",
   url: "https://amarhelps.com",
   appUrl: "https://app.amarhelps.com",

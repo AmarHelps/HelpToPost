@@ -37,7 +37,7 @@ export default function Home() {
       <Section>
         <div className="grid items-center gap-12 md:grid-cols-[1.2fr_1fr]">
           <div>
-            <p className="ah-eyebrow mb-6">Help to post · beta</p>
+            <p className="ah-eyebrow mb-6">HelpToPost · beta</p>
             <h1 className="text-[44px] leading-[0.98] sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">
               Shoot it, fix it, post it everywhere
             </h1>

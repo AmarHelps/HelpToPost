@@ -1,6 +1,6 @@
 {
-  "name": "Amar Helps Post",
-  "short_name": "Amar Helps",
+  "name": "HelpToPost",
+  "short_name": "HelpToPost",
   "description": "Shoot, fix and post to YouTube and Instagram in under a minute.",
   "start_url": "/",
   "scope": "/",
