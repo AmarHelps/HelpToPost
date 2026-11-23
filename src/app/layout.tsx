@@ -9,7 +9,7 @@ const jbMono = JetBrains_Mono({ variable: "--font-jbmono-src", subsets: ["latin"
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.name}: shoot it, fix it, post it everywhere`, template: `%s · ${site.name}` },
+  title: { default: `${site.appName}: shoot it, fix it, post it everywhere`, template: `%s · ${site.name}` },
   description:
     "Phone-first posting for market vendors, musicians and one-person businesses. Shoot a photo or video, fix it and post it to YouTube and Instagram in under a minute.",
   openGraph: { siteName: site.name, type: "website" },

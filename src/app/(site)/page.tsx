@@ -37,10 +37,13 @@ export default function Home() {
       <Section>
         <div className="grid items-center gap-12 md:grid-cols-[1.2fr_1fr]">
           <div>
-            <p className="ah-eyebrow mb-6">HelpToPost · beta</p>
-            <h1 className="text-[44px] leading-[0.98] sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">
-              Shoot it, fix it, post it everywhere
+            <p className="ah-eyebrow mb-6">By Amar Helps · beta</p>
+            <h1 aria-label="HelpToPost" className="text-[52px] leading-[0.9] sm:text-[88px] lg:text-[112px]">
+              Help<span className="text-secondary">To</span>Post
             </h1>
+            <p className="mt-6 font-display text-[24px] font-semibold uppercase leading-[1.05] tracking-[var(--track-display)] [font-kerning:none] sm:text-[34px] lg:text-[40px]">
+              Shoot it, fix it, post it everywhere
+            </p>
             <p className="mt-6 max-w-[62ch] text-lg text-secondary">
               The simplest way for market vendors, musicians and small businesses to post photos and videos to YouTube and Instagram from a phone. Under a minute from camera to posted.
             </p>
