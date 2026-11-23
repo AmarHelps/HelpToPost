@@ -1,32 +1,38 @@
 import Link from "next/link";
-import { LogoMark } from "@/components/Logo";
+import { Logo } from "@/components/Logo";
 import { site } from "@/lib/site";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header className="sticky top-0 z-20 border-b border-line/70 bg-bg/85 backdrop-blur">
-        <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-          <Link href="/" className="flex items-center gap-2 font-display text-lg font-semibold">
-            <LogoMark className="h-8 w-8" />
-            {site.name}
+      <header className="sticky top-0 z-20 border-b border-hairline bg-[rgba(23,23,23,.78)] backdrop-blur-[10px]">
+        <nav className="mx-auto flex max-w-[1180px] items-center justify-between gap-4 px-4 py-2 sm:px-8">
+          <Link href="/" aria-label="Amar Helps home" className="text-primary">
+            <Logo size={52} />
           </Link>
-          <div className="flex items-center gap-4 text-sm">
-            <Link href="/#how" className="hidden text-muted hover:text-ink sm:inline">How it works</Link>
-            <Link href="/#pricing" className="hidden text-muted hover:text-ink sm:inline">Pricing</Link>
-            <Link href="/#waitlist" className="rounded-full bg-brand px-4 py-2 font-medium text-brand-ink">Join the waitlist</Link>
+          <div className="flex items-center gap-6">
+            <Link href="/#how" className="ah-eyebrow hidden !text-secondary hover:!text-primary sm:inline">How it works</Link>
+            <Link href="/#pricing" className="ah-eyebrow hidden !text-secondary hover:!text-primary sm:inline">Pricing</Link>
+            <Link href="/#waitlist" className="ah-btn ah-btn-sm">Join the waitlist</Link>
           </div>
         </nav>
       </header>
       <main className="flex-1">{children}</main>
-      <footer className="border-t border-line">
-        <div className="mx-auto flex max-w-5xl flex-col gap-3 px-4 py-8 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 {site.operator}. Made for small businesses.</p>
-          <div className="flex flex-wrap gap-x-5 gap-y-2">
-            <Link href="/privacy" className="hover:text-ink">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-ink">Terms of Service</Link>
-            <Link href="/data-deletion" className="hover:text-ink">Delete your data</Link>
-            <a href={`mailto:${site.email}`} className="hover:text-ink">{site.email}</a>
+      <footer className="border-t border-hairline bg-sunken">
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-6 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <div className="flex items-center gap-4">
+            <Logo variant="mark" size={28} className="text-primary" />
+            <p className="ah-eyebrow">© 2026 {site.operator} · Built for people who sell in person</p>
+          </div>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            {[
+              ["/privacy", "Privacy"],
+              ["/terms", "Terms"],
+              ["/data-deletion", "Delete your data"],
+            ].map(([href, label]) => (
+              <Link key={href} href={href} className="ah-eyebrow !text-secondary hover:!text-accent">{label}</Link>
+            ))}
+            <a href={`mailto:${site.email}`} className="ah-eyebrow !text-secondary hover:!text-accent">{site.email}</a>
           </div>
         </div>
       </footer>

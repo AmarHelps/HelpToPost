@@ -2,30 +2,29 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CircleUser, ListOrdered, Plus } from "lucide-react";
 import { appPath } from "@/lib/site";
 
 const tabs = [
-  { href: "/", label: "New post", icon: "M12 5v14M5 12h14" },
-  { href: "/queue", label: "Queue", icon: "M4 6h16M4 12h16M4 18h10" },
-  { href: "/accounts", label: "Accounts", icon: "M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" },
+  { href: "/", label: "New post", Icon: Plus },
+  { href: "/queue", label: "Queue", Icon: ListOrdered },
+  { href: "/accounts", label: "Accounts", Icon: CircleUser },
 ];
 
 export function AppNav() {
   const pathname = usePathname();
   const current = pathname.replace(/^\/app/, "") || "/";
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface/95 pb-[env(safe-area-inset-bottom)] backdrop-blur">
+    <nav className="fixed inset-x-0 bottom-0 z-20 border-t border-hairline bg-sunken pb-[env(safe-area-inset-bottom)]">
       <ul className="mx-auto flex max-w-md">
-        {tabs.map((t) => {
-          const active = current === t.href;
+        {tabs.map(({ href, label, Icon }) => {
+          const active = current === href;
           return (
-            <li key={t.href} className="flex-1">
-              <Link href={appPath(t.href)} aria-current={active ? "page" : undefined}
-                className={`flex flex-col items-center gap-1 py-3 text-xs font-medium ${active ? "text-brand" : "text-muted"}`}>
-                <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                  <path d={t.icon} />
-                </svg>
-                {t.label}
+            <li key={href} className="flex-1">
+              <Link href={appPath(href)} aria-current={active ? "page" : undefined}
+                className={`flex flex-col items-center gap-1.5 py-3 font-mono text-[10.5px] uppercase tracking-[0.14em] transition-colors active:scale-[.97] ${active ? "text-accent" : "text-muted hover:text-primary"}`}>
+                <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
+                {label}
               </Link>
             </li>
           );

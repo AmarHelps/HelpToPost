@@ -7,11 +7,11 @@ const PLATFORMS = new Set(["youtube", "instagram", "facebook", "tiktok", "other"
 
 export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Promise<WaitlistState> {
   // Honeypot: real people never fill this hidden field.
-  if (String(formData.get("company") ?? "").trim()) return { ok: true, message: "Thanks! You're on the list." };
+  if (String(formData.get("company") ?? "").trim()) return { ok: true, message: "You are on the list." };
 
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) {
-    return { ok: false, message: "Please enter a valid email address." };
+    return { ok: false, message: "Enter a valid email address." };
   }
   const tradeRaw = String(formData.get("trade") ?? "");
   const trade = TRADES.has(tradeRaw) ? tradeRaw : null;
@@ -21,7 +21,7 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) {
     console.warn("[waitlist] Supabase is not configured; signup not stored:", { trade, platforms });
-    return { ok: false, message: "The waitlist isn't open yet. Please email us instead." };
+    return { ok: false, message: "The waitlist is not open yet. Email hello@amarhelps.com instead." };
   }
 
   const res = await fetch(`${url}/rest/v1/waitlist`, {
@@ -38,7 +38,7 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
 
   if (!res.ok && res.status !== 409) {
     console.error("[waitlist] insert failed", res.status, await res.text());
-    return { ok: false, message: "Something went wrong. Please try again in a minute." };
+    return { ok: false, message: "That did not go through. Try again in a minute." };
   }
-  return { ok: true, message: "Thanks! You're on the list. We'll email you when your invite is ready." };
+  return { ok: true, message: "You are on the list. I will email you when your invite is ready." };
 }

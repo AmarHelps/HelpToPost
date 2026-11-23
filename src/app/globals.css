@@ -1,56 +1,121 @@
 @import "tailwindcss";
 
-:root {
-  --bg: #fbf7f0;
-  --surface: #ffffff;
-  --ink: #1f2a24;
-  --muted: #5b675f;
-  --line: #e6ddcf;
-  --brand: #1f6b4a;
-  --brand-ink: #ffffff;
-  --accent: #e2583e;
-  --soft: #eef4ee;
-}
+/* Amar Helps design tokens (design system file 3). Dark is the default theme;
+   [data-theme="light"] is the exception, for print and light surfaces.
+   Fonts are loaded with next/font in layout.tsx and exposed as --font-*-src. */
+:root{
+  --ink-900:#0d0d0d;--ink-800:#171717;--ink-700:#1f1f1f;--ink-600:#282828;--ink-500:#333333;--ink-400:#454545;--ink-300:#5c5c5c;
+  --paper-000:#ffffff;--paper-100:#f7f6f3;--paper-200:#edebe5;--paper-300:#dcd8ce;--paper-400:#bab5a8;
+  --rose-200:#f9cdd9;--rose-400:#f593ae;--rose-500:#ef6d92;--rose-600:#d24e75;--rose-700:#b0375e;
+  --azure-500:#6aa9e0;--azure-200:#c8e0f5;--plum-500:#b585d6;--plum-200:#e3d1f2;--crimson-500:#e0503f;--crimson-200:#f5c3bb;
+  --surface-page:var(--ink-800);--surface-sunken:var(--ink-900);--surface-card:var(--ink-700);--surface-raised:var(--ink-600);--surface-inset:#1b1b1b;--surface-overlay:rgba(13,13,13,.72);
+  --surface-hover:rgba(255,255,255,.06);--surface-active:rgba(255,255,255,.11);
+  --text-primary:#f7f7f5;--text-secondary:rgba(247,247,245,.66);--text-muted:rgba(247,247,245,.48);--text-inverse:var(--ink-900);--text-accent:var(--rose-500);
+  --line-hairline:rgba(255,255,255,.14);--line-strong:rgba(255,255,255,.30);--line-ink:#f7f7f5;--line-accent:var(--rose-500);
+  --accent:var(--rose-500);--accent-hover:var(--rose-400);--accent-ink:var(--ink-900);--accent-soft:rgba(239,109,146,.16);
+  --status-ok:var(--azure-500);--status-ok-soft:rgba(106,169,224,.16);
+  --status-warn:var(--plum-500);--status-warn-soft:rgba(181,133,214,.16);
+  --status-alert:var(--crimson-500);--status-alert-soft:rgba(224,80,63,.16);
+  --focus-ring:var(--rose-500);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #121714;
-    --surface: #1a211d;
-    --ink: #eef1ec;
-    --muted: #a7b2aa;
-    --line: #2c3630;
-    --brand: #4fb386;
-    --brand-ink: #0e1a14;
-    --accent: #f07a62;
-    --soft: #1d2a23;
-  }
-}
+  --track-display:-0.015em;--track-label:0.14em;--track-label-wide:0.2em;
 
-@theme inline {
-  --color-bg: var(--bg);
-  --color-surface: var(--surface);
-  --color-ink: var(--ink);
-  --color-muted: var(--muted);
-  --color-line: var(--line);
-  --color-brand: var(--brand);
-  --color-brand-ink: var(--brand-ink);
+  --radius-xs:6px;--radius-sm:10px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;--radius-pill:999px;
+  --stroke-hairline:1px solid var(--line-hairline);
+  --stroke-strong:1px solid var(--line-strong);
+  --stroke-drawn:2px solid var(--line-ink);
+  --shadow-sticker:3px 3px 0 var(--line-ink);
+  --shadow-sticker-accent:3px 3px 0 var(--accent);
+  --shadow-ambient:0 1px 2px rgba(0,0,0,.28),0 8px 24px rgba(0,0,0,.24);
+
+  --dur-fast:140ms;--dur-base:220ms;
+  --ease-out:cubic-bezier(.2,.8,.2,1);--ease-spring:cubic-bezier(.34,1.42,.64,1);
+  --press-scale:0.97;
+  --transition-control:background-color var(--dur-fast) var(--ease-out),border-color var(--dur-fast) var(--ease-out),color var(--dur-fast) var(--ease-out),transform var(--dur-fast) var(--ease-spring),box-shadow var(--dur-fast) var(--ease-out);
+}
+@media (prefers-reduced-motion:reduce){:root{--dur-fast:0ms;--dur-base:0ms;--press-scale:1}}
+
+@theme {
+  --color-page: var(--surface-page);
+  --color-sunken: var(--surface-sunken);
+  --color-card: var(--surface-card);
+  --color-raised: var(--surface-raised);
+  --color-primary: var(--text-primary);
+  --color-secondary: var(--text-secondary);
+  --color-muted: var(--text-muted);
+  --color-hairline: var(--line-hairline);
+  --color-strong: var(--line-strong);
+  --color-ink-line: var(--line-ink);
   --color-accent: var(--accent);
-  --color-soft: var(--soft);
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-fraunces);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-ok: var(--status-ok);
+  --color-warn: var(--status-warn);
+  --color-alert: var(--status-alert);
+  --font-display: var(--font-fredoka-src), "Baloo 2", system-ui, sans-serif;
+  --font-sans: var(--font-dmsans-src), system-ui, sans-serif;
+  --font-mono: var(--font-jbmono-src), ui-monospace, monospace;
 }
 
-html { -webkit-text-size-adjust: 100%; }
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--surface-page);color:var(--text-primary);font-family:var(--font-sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;text-wrap:pretty}
+/* Fredoka kerns "IV" in caps into a near-M (PRIVACY reads PRMACY), so heading kerning is off. */
+h1,h2,h3,h4,.font-display{font-family:var(--font-display);font-weight:600;text-transform:uppercase;margin:0;font-kerning:none}
+h1{letter-spacing:var(--track-display)}
+a{text-underline-offset:3px;transition:color var(--dur-fast) var(--ease-out)}
+::selection{background:var(--accent);color:var(--accent-ink)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px}
 
-body {
-  background: var(--bg);
-  color: var(--ink);
-}
+/* Eyebrows, labels, badges, metadata: mono caps at 0.14em */
+.ah-eyebrow{font-family:var(--font-mono);font-size:12px;line-height:1.2;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--text-muted)}
 
-.prose-legal h2 { font-family: var(--font-fraunces); font-size: 1.35rem; font-weight: 600; margin: 2rem 0 0.5rem; }
-.prose-legal h3 { font-weight: 600; margin: 1.25rem 0 0.25rem; }
-.prose-legal p, .prose-legal li { color: var(--muted); line-height: 1.7; }
-.prose-legal p { margin: 0.5rem 0; }
-.prose-legal ul { list-style: disc; padding-left: 1.25rem; margin: 0.5rem 0; }
-.prose-legal a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
-.prose-legal strong { color: var(--ink); }
+/* Buttons: always pill, label in caps, press to 97%, no shadow */
+.ah-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:var(--radius-pill);padding:10px 20px;min-height:44px;
+  font-family:var(--font-mono);font-size:13px;font-weight:500;letter-spacing:var(--track-label);text-transform:uppercase;text-decoration:none;
+  border:2px solid var(--line-strong);color:var(--text-primary);background:transparent;cursor:pointer;transition:var(--transition-control)}
+.ah-btn:hover{background:var(--surface-hover);color:var(--text-primary)}
+.ah-btn:active{transform:scale(var(--press-scale))}
+.ah-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.ah-btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ah-btn-primary:hover{background:var(--accent-hover);border-color:var(--accent-hover);color:var(--accent-ink)}
+.ah-btn-ghost{border-color:transparent}
+.ah-btn-sm{min-height:36px;padding:6px 14px;font-size:12px}
+
+/* Cards: outline (default), drawn, sticker (one per view) */
+.ah-card{background:var(--surface-card);border:var(--stroke-hairline);border-radius:var(--radius-lg);padding:24px}
+.ah-card-drawn{border:var(--stroke-drawn)}
+.ah-card-sticker{border:var(--stroke-drawn);box-shadow:var(--shadow-sticker)}
+
+/* Form controls: 2px border, 14px radius, rose on focus */
+.ah-input{width:100%;background:var(--surface-inset);color:var(--text-primary);border:2px solid var(--line-hairline);border-radius:var(--radius-md);
+  padding:10px 14px;font:inherit;font-size:16px;outline:none;transition:var(--transition-control)}
+.ah-input::placeholder{color:var(--text-muted)}
+.ah-input:focus,.ah-input:focus-visible{border-color:var(--accent);outline:none}
+.ah-label{display:block;margin-bottom:6px;font-family:var(--font-mono);font-size:12px;letter-spacing:var(--track-label);text-transform:uppercase;color:var(--text-secondary)}
+.ah-hint{margin-top:6px;font-size:13px;color:var(--text-muted)}
+.ah-error{margin-top:6px;font-size:13px;color:var(--status-alert)}
+
+/* Tags (interactive, sentence case) and badges (read-only, mono caps) */
+.ah-tag{display:inline-flex;align-items:center;gap:8px;border-radius:var(--radius-pill);border:1px solid var(--line-strong);padding:8px 14px;font-size:14px;cursor:pointer;
+  color:var(--text-secondary);transition:var(--transition-control)}
+.ah-tag:hover{background:var(--surface-hover);color:var(--text-primary)}
+.ah-tag:active{transform:scale(var(--press-scale))}
+.ah-tag[aria-pressed="true"],.ah-tag[aria-checked="true"],.ah-tag:has(input:checked){border-color:var(--accent);background:var(--accent-soft);color:var(--text-primary)}
+.ah-badge{display:inline-flex;align-items:center;gap:6px;border-radius:var(--radius-pill);padding:3px 10px;font-family:var(--font-mono);font-size:10.5px;
+  letter-spacing:var(--track-label);text-transform:uppercase;border:1px solid var(--line-hairline);color:var(--text-secondary)}
+.ah-badge-ok{color:var(--status-ok);background:var(--status-ok-soft);border-color:transparent}
+.ah-badge-warn{color:var(--status-warn);background:var(--status-warn-soft);border-color:transparent}
+.ah-badge-accent{color:var(--accent);background:var(--accent-soft);border-color:transparent}
+
+/* Legal pages: prose at 62ch */
+.prose-legal{max-width:62ch}
+.prose-legal h2{font-size:22px;line-height:1.18;margin:40px 0 8px;padding-top:12px;border-top:2px solid var(--line-ink)}
+.prose-legal h3{font-size:17px;line-height:1.25;margin:24px 0 4px}
+.prose-legal p,.prose-legal li{color:var(--text-secondary);line-height:1.6}
+.prose-legal p{margin:8px 0}
+.prose-legal ul{list-style:disc;padding-left:20px;margin:8px 0}
+.prose-legal li{margin:4px 0}
+.prose-legal a{color:var(--text-primary);text-decoration:underline;text-decoration-color:var(--line-strong)}
+.prose-legal a:hover{color:var(--accent);text-decoration-color:var(--accent)}
+.prose-legal strong{color:var(--text-primary);font-weight:500}

@@ -1,18 +1,27 @@
+import { Logo } from "@/components/Logo";
+
+// A flat mock of the composer: no gradients or photos, per the design system.
 export function PhoneMock() {
   return (
     <div className="mx-auto w-64 sm:w-72" aria-hidden="true">
-      <div className="rounded-[2.5rem] border-[10px] border-ink bg-surface p-3 shadow-2xl">
-        <div className="relative aspect-[9/16] overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-[#f4c26b] via-[#e2583e] to-[#1f6b4a]">
-          <div className="absolute inset-x-0 top-6 text-center font-display text-xl font-semibold text-white drop-shadow">Market day!</div>
-          <div className="absolute inset-x-0 top-14 text-center text-sm text-white/90">Booth 14 · 8am to 1pm</div>
-          <div className="absolute inset-x-4 bottom-4 space-y-2">
-            <div className="flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs font-medium text-[#1f2a24]">
-              <span>YouTube Short</span><span className="text-[#1f6b4a]">✓ Ready</span>
+      <div className="ah-card-sticker rounded-[36px] bg-sunken p-3">
+        <div className="relative flex aspect-[9/16] flex-col overflow-hidden rounded-[26px] border border-hairline bg-card p-4">
+          <p className="ah-eyebrow">New post · 9:16</p>
+          <div className="flex flex-1 items-center justify-center">
+            <div className="flex h-28 w-28 items-center justify-center rounded-full border-2 border-ink-line">
+              <Logo variant="mark" size={56} className="text-primary" />
             </div>
-            <div className="flex items-center justify-between rounded-xl bg-white/90 px-3 py-2 text-xs font-medium text-[#1f2a24]">
-              <span>Instagram Reel</span><span className="text-[#1f6b4a]">✓ Ready</span>
-            </div>
-            <div className="rounded-xl bg-[#1f2a24] py-2.5 text-center text-sm font-semibold text-white">Post to both</div>
+          </div>
+          <p className="font-display text-xl font-semibold uppercase leading-tight">Market day</p>
+          <p className="mb-4 text-sm text-secondary">Booth 14 · 8 am to 1 pm</p>
+          <div className="space-y-2">
+            {["YouTube Short", "Instagram Reel"].map((p) => (
+              <div key={p} className="flex items-center justify-between rounded-[14px] border border-hairline px-3 py-2 text-xs">
+                <span>{p}</span>
+                <span className="ah-badge ah-badge-ok">Ready</span>
+              </div>
+            ))}
+            <div className="ah-btn ah-btn-primary w-full">Post to both</div>
           </div>
         </div>
       </div>

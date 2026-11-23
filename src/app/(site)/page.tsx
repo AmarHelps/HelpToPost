@@ -1,106 +1,123 @@
+import { Check } from "lucide-react";
 import { WaitlistForm } from "@/components/WaitlistForm";
 import { PhoneMock } from "@/components/PhoneMock";
 
 const steps = [
-  { n: "1", title: "Shoot", body: "Snap a photo or video with your phone's camera, or pick a few from your camera roll. Works at the booth, backstage or in the field." },
-  { n: "2", title: "Fix", body: "Trim, crop to the right shape for each app, brighten it up, and add one line of text. No editing skills needed." },
-  { n: "3", title: "Post everywhere", body: "See exactly how it will look as a Short, a Reel or a feed post, then post to YouTube and Instagram with one tap, or schedule it." },
+  { n: "01", title: "Shoot", body: "Take a photo or video with your phone camera, or pick a few from your camera roll. At the booth, backstage or in the field." },
+  { n: "02", title: "Fix", body: "Trim it, crop it to the right shape for each app, brighten it and add one line of text. No editing skills needed." },
+  { n: "03", title: "Post", body: "See how it will look as a Short, a Reel or a feed post. Then post to YouTube and Instagram with one tap, or schedule it." },
 ];
 
 const who = [
-  { title: "Farmers market and craft vendors", body: "“Market day” posts with your booth number, hours and three photos, ready before the first customer arrives." },
-  { title: "Musicians and bands", body: "Turn a clip from last night's set into a YouTube Short and an Instagram Reel, with a link to your new track." },
-  { title: "One-person businesses", body: "Bakers, florists, repair shops and makers: anyone who sells in person and doesn't have a marketing team." },
+  { title: "Market and craft vendors", body: "A market-day post with your booth number, hours and 3 photos, ready before the first customer shows up." },
+  { title: "Musicians and bands", body: "Turn a clip from last night's set into a YouTube Short and an Instagram Reel, with a link to the new track." },
+  { title: "One-person businesses", body: "Bakers, florists, repair shops and makers. Anyone who sells in person and has no marketing team." },
 ];
 
 const features = [
-  "Right size for every platform: 9:16, 1:1 and 4:5 crops done for you",
-  "Warnings before you post, like “too long for a Short”",
+  "The right shape for each platform: 9:16, 4:5 and 1:1",
+  "A warning before you post, like “too long for a Short”",
   "One caption, adjusted for each platform",
-  "Templates for your trade: Market day, Sold out, Gig tonight, New single",
-  "Works in your phone's browser. Add it to your home screen, no app store",
-  "Post now or schedule for later",
+  "Templates for your trade: market day, sold out, gig tonight, new single",
+  "Runs in your phone browser. Add it to your home screen, no app store",
+  "Post now or schedule it for later",
 ];
+
+function Section({ id, sunken, children }: { id?: string; sunken?: boolean; children: React.ReactNode }) {
+  return (
+    <section id={id} className={`scroll-mt-16 ${sunken ? "border-y border-hairline bg-sunken" : ""}`}>
+      <div className="mx-auto max-w-[1180px] px-4 py-16 sm:px-8 sm:py-[88px]">{children}</div>
+    </section>
+  );
+}
 
 export default function Home() {
   return (
     <>
-      <section className="mx-auto grid max-w-5xl items-center gap-10 px-4 pb-16 pt-12 md:grid-cols-[1.15fr_1fr] md:pt-20">
-        <div>
-          <p className="mb-4 inline-block rounded-full bg-soft px-3 py-1 text-sm font-medium text-brand">Now inviting early testers</p>
-          <h1 className="font-display text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Shoot it, fix it, post it everywhere.<span className="text-accent"> In under a minute.</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-muted">
-            Amar Helps is the simplest way for market vendors, musicians and small businesses to post photos and videos to YouTube and Instagram, right from your phone.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a href="#waitlist" className="rounded-xl bg-brand px-6 py-3 font-semibold text-brand-ink">Join the waitlist</a>
-            <a href="#how" className="rounded-xl border border-line px-6 py-3 font-semibold">See how it works</a>
+      <Section>
+        <div className="grid items-center gap-12 md:grid-cols-[1.2fr_1fr]">
+          <div>
+            <p className="ah-eyebrow mb-6">Help to post · beta</p>
+            <h1 className="text-[44px] leading-[0.98] sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">
+              Shoot it, fix it, post it everywhere
+            </h1>
+            <p className="mt-6 max-w-[62ch] text-lg text-secondary">
+              The simplest way for market vendors, musicians and small businesses to post photos and videos to YouTube and Instagram from a phone. Under a minute from camera to posted.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a href="#waitlist" className="ah-btn ah-btn-primary">Get an early invite</a>
+              <a href="#how" className="ah-btn">See how it works</a>
+            </div>
+            <p className="ah-eyebrow mt-8">YouTube and Instagram first · Facebook and TikTok next</p>
           </div>
-          <p className="mt-6 text-sm text-muted">Starting with YouTube and Instagram. Facebook and TikTok are next.</p>
+          <PhoneMock />
         </div>
-        <PhoneMock />
-      </section>
+      </Section>
 
-      <section id="how" className="border-y border-line bg-surface">
-        <div className="mx-auto max-w-5xl px-4 py-16">
-          <h2 className="font-display text-3xl font-semibold">How it works</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            {steps.map((s) => (
-              <div key={s.n} className="rounded-2xl border border-line bg-bg p-6">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand font-semibold text-brand-ink">{s.n}</div>
-                <h3 className="mt-4 text-xl font-semibold">{s.title}</h3>
-                <p className="mt-2 text-muted">{s.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Section id="how" sunken>
+        <p className="ah-eyebrow mb-3">01 — How it works</p>
+        <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">Three steps, one screen</h2>
+        <ol className="mt-10 grid gap-6 md:grid-cols-3">
+          {steps.map((s) => (
+            <li key={s.n} className="border-t-2 border-ink-line pt-5">
+              <p className="font-mono text-sm tracking-[0.14em] text-accent">{s.n}</p>
+              <h3 className="mt-2 text-[22px] leading-[1.18]">{s.title}</h3>
+              <p className="mt-2 text-secondary">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
-      <section className="mx-auto max-w-5xl px-4 py-16">
-        <h2 className="font-display text-3xl font-semibold">Made for people who sell in person</h2>
-        <div className="mt-8 grid gap-6 md:grid-cols-3">
+      <Section>
+        <p className="ah-eyebrow mb-3">02 — Who it is for</p>
+        <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">People who sell in person</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
           {who.map((w) => (
-            <div key={w.title}>
-              <h3 className="text-lg font-semibold">{w.title}</h3>
-              <p className="mt-2 text-muted">{w.body}</p>
+            <div key={w.title} className="ah-card">
+              <h3 className="text-[17px] leading-[1.25]">{w.title}</h3>
+              <p className="mt-2 text-secondary">{w.body}</p>
             </div>
           ))}
         </div>
-        <ul className="mt-12 grid gap-3 sm:grid-cols-2">
+        <ul className="mt-10 grid gap-x-8 gap-y-4 sm:grid-cols-2">
           {features.map((f) => (
-            <li key={f} className="flex gap-3 rounded-xl bg-soft p-4">
-              <span aria-hidden="true" className="mt-0.5 text-brand">✓</span>
-              <span>{f}</span>
+            <li key={f} className="flex gap-3">
+              <Check size={18} strokeWidth={1.75} className="mt-1 shrink-0 text-accent" aria-hidden="true" />
+              <span className="text-secondary">{f}</span>
             </li>
           ))}
         </ul>
-      </section>
+      </Section>
 
-      <section id="pricing" className="border-y border-line bg-surface">
-        <div className="mx-auto max-w-5xl px-4 py-16">
-          <h2 className="font-display text-3xl font-semibold">Simple pricing</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-2">
-            <div className="rounded-2xl border-2 border-brand bg-bg p-6">
-              <h3 className="text-lg font-semibold">Early tester</h3>
-              <p className="mt-2 font-display text-4xl font-semibold">Free</p>
-              <p className="mt-2 text-muted">Free during the beta for everyone on the waitlist, in exchange for honest feedback.</p>
-            </div>
-            <div className="rounded-2xl border border-line bg-bg p-6">
-              <h3 className="text-lg font-semibold">After launch</h3>
-              <p className="mt-2 font-display text-4xl font-semibold">About $15<span className="text-base font-normal text-muted"> / month</span></p>
-              <p className="mt-2 text-muted">One simple plan, cancel anytime. Early testers get a founding-member discount.</p>
-            </div>
+      <Section id="pricing" sunken>
+        <p className="ah-eyebrow mb-3">03 — Pricing</p>
+        <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">One plan, no contract</h2>
+        <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="ah-card ah-card-drawn">
+            <p className="ah-eyebrow">During the beta</p>
+            <p className="mt-3 font-display text-[40px] font-semibold uppercase leading-none">Free</p>
+            <p className="mt-3 text-secondary">Free for everyone on the waitlist while it is in beta. In return, tell me what works and what does not.</p>
+          </div>
+          <div className="ah-card">
+            <p className="ah-eyebrow">After launch</p>
+            <p className="mt-3 font-display text-[40px] font-semibold uppercase leading-none">
+              About $15 <span className="font-sans text-base font-normal normal-case text-secondary">a month</span>
+            </p>
+            <p className="mt-3 text-secondary">One plan. Stop any month you like. Beta testers keep a lower founding price.</p>
           </div>
         </div>
-      </section>
+      </Section>
 
-      <section id="waitlist" className="mx-auto max-w-2xl scroll-mt-20 px-4 py-16">
-        <h2 className="font-display text-3xl font-semibold">Get an early invite</h2>
-        <p className="mt-2 mb-8 text-muted">Tell us a little about what you do, and we&apos;ll invite you as soon as there&apos;s room in the beta.</p>
-        <WaitlistForm />
-      </section>
+      <Section id="waitlist">
+        <div className="mx-auto max-w-[720px]">
+          <p className="ah-eyebrow mb-3">04 — Waitlist</p>
+          <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">Get an early invite</h2>
+          <p className="mb-8 mt-3 text-secondary">Tell me what you do and where you post. I will send an invite as soon as there is room in the beta.</p>
+          <div className="ah-card ah-card-sticker">
+            <WaitlistForm />
+          </div>
+        </div>
+      </Section>
     </>
   );
 }

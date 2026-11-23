@@ -1,34 +1,35 @@
 import type { Metadata } from "next";
+import { Aperture, Flag, MonitorPlay, Music2 } from "lucide-react";
 
 export const metadata: Metadata = { title: "Accounts" };
 
 const accounts = [
-  { name: "YouTube", note: "Post videos and Shorts to your channel.", color: "#ff0000" },
-  { name: "Instagram", note: "Needs a free Business or Creator account. We'll walk you through switching.", color: "#d62976" },
-  { name: "Facebook Page", note: "Coming after launch.", color: "#1877f2", later: true },
-  { name: "TikTok", note: "Coming after launch.", color: "#111111", later: true },
+  { name: "YouTube", note: "Videos and Shorts on your channel.", Icon: MonitorPlay, status: "Soon" },
+  { name: "Instagram", note: "Needs a free Business or Creator account. The app walks you through switching.", Icon: Aperture, status: "Soon" },
+  { name: "Facebook Page", note: "After launch.", Icon: Flag, status: "Later" },
+  { name: "TikTok", note: "After launch.", Icon: Music2, status: "Later" },
 ];
 
 export default function Accounts() {
   return (
     <>
-      <h1 className="mt-2 font-display text-2xl font-semibold">Accounts</h1>
-      <p className="mt-1 text-sm text-muted">Connect the places you want to post. You can disconnect any time.</p>
+      <h1 className="mt-2 text-[30px] leading-[1.1]">Accounts</h1>
+      <p className="mt-2 text-secondary">Connect the places you post. Disconnect any time.</p>
       <ul className="mt-6 space-y-3">
-        {accounts.map((a) => (
-          <li key={a.name} className="flex items-center gap-3 rounded-2xl border border-line bg-surface p-4">
-            <span className="h-10 w-10 shrink-0 rounded-xl" style={{ background: a.color }} aria-hidden="true" />
+        {accounts.map(({ name, note, Icon, status }) => (
+          <li key={name} className="ah-card flex items-center gap-4 !p-4">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-ink-line">
+              <Icon size={18} strokeWidth={1.75} aria-hidden="true" />
+            </span>
             <div className="min-w-0 flex-1">
-              <p className="font-semibold">{a.name}</p>
-              <p className="text-sm text-muted">{a.note}</p>
+              <h2 className="text-[17px] leading-[1.25]">{name}</h2>
+              <p className="text-sm text-secondary">{note}</p>
             </div>
-            <button disabled className="shrink-0 rounded-lg border border-line px-3 py-2 text-sm font-medium text-muted">
-              {a.later ? "Later" : "Soon"}
-            </button>
+            <span className="ah-badge shrink-0">{status}</span>
           </li>
         ))}
       </ul>
-      <p className="mt-6 text-xs text-muted">Connecting is being set up now. Beta testers will be able to connect YouTube and Instagram first.</p>
+      <p className="ah-hint mt-6">Connecting is being built now. Beta testers get YouTube and Instagram first.</p>
     </>
   );
 }
