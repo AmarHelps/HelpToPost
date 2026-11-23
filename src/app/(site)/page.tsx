@@ -5,9 +5,9 @@ import { Section } from "@/components/Section";
 import { site } from "@/lib/site";
 
 const services = [
-  { n: "01", title: "Design", body: "Logos, layouts and product concepts, from first sketch to finished files." },
-  { n: "02", title: "Prototyping", body: "Virtual models and 3D-printed parts, so you can hold and test an idea before you commit to it." },
-  { n: "03", title: "Implementation", body: "Websites and small apps, built, launched and looked after." },
+  { n: "01", title: "Design", body: "Logos, product concepts and layouts, from first sketch to finished files." },
+  { n: "02", title: "Prototyping", body: "3D models you can review on screen, then printed parts you can hold and test." },
+  { n: "03", title: "Implementation", body: "I turn the approved design into a working product, whether that's a printed part, a website or a small app." },
 ];
 
 export default function Home() {
@@ -64,7 +64,7 @@ export default function Home() {
 
       <Section id="services">
         <p className="ah-eyebrow mb-3">02 — Services</p>
-        <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">Design, prototyping and more</h2>
+        <h2 className="text-[30px] leading-[1.1] sm:text-[40px] sm:leading-[1.04]">From idea to object: design, prototyping and more</h2>
         <ol className="mt-10 grid gap-6 md:grid-cols-3">
           {services.map((s) => (
             <li key={s.n} className="border-t-2 border-ink-line pt-5">
