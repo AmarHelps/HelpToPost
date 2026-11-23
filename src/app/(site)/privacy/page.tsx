@@ -46,6 +46,17 @@ export default function Privacy() {
         </li>
       </ul>
       <p>I do not read your private messages, your followers&apos; personal information, or content you posted outside the Service.</p>
+      <h3>YouTube API Services</h3>
+      <p>
+        The Service uses YouTube API Services to upload videos to your channel. By connecting YouTube you agree to the{" "}
+        <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>, and Google&apos;s handling of your data is covered by the{" "}
+        <a href="https://policies.google.com/privacy">Google Privacy Policy</a>. You can revoke the Service&apos;s access at any time from your{" "}
+        <a href="https://security.google.com/settings/security/permissions">Google security settings</a>, or by tapping Disconnect in the app; either
+        way I delete the stored tokens. {site.appName}&apos;s use and transfer of information received from Google APIs adheres to the{" "}
+        <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use
+        requirements. I do not use that information for advertising, sell it, or let people read it except as needed to run the Service, for
+        security, or where the law requires.
+      </p>
       <h3>Information collected automatically</h3>
       <ul>
         <li><strong>Technical data:</strong> IP address, browser and device type, and pages visited, kept in server logs for security and troubleshooting.</li>

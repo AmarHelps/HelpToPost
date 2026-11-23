@@ -112,6 +112,12 @@ export function Accounts() {
         ))}
       </ul>
 
+      <p className="ah-hint mt-4">
+        Connecting YouTube means you agree to the <a href="https://www.youtube.com/t/terms" className="underline">YouTube Terms of Service</a>.
+        See the <a href="https://policies.google.com/privacy" className="underline">Google Privacy Policy</a> and{" "}
+        <a href={`${site.url}/privacy`} className="underline">{site.appName}&apos;s Privacy Policy</a>.
+      </p>
+
       <section className="mt-10 space-y-3 border-t border-hairline pt-6">
         <p className="text-sm text-secondary">Signed in as {user?.email}</p>
         <div className="flex flex-wrap gap-2">
