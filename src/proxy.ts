@@ -3,6 +3,14 @@ import { NextResponse, type NextRequest } from "next/server";
 // Paths that are shared by both hosts and are never rewritten.
 const SHARED = ["/privacy", "/terms", "/data-deletion", "/api", "/manifest.webmanifest", "/icons", "/favicon.ico", "/robots.txt"];
 
+// The legal pages cover every Amar Helps product, so they live at the company level. These product-level
+// paths are accepted too and point at the one canonical copy.
+const LEGAL_ALIASES: Record<string, string> = {
+  "/helptopost/privacy": "/privacy",
+  "/helptopost/terms": "/terms",
+  "/helptopost/data-deletion": "/data-deletion",
+};
+
 // app.amarhelps.com/* is served from the /app route tree; amarhelps.com serves everything else.
 export function proxy(request: NextRequest) {
   const host = (request.headers.get("host") ?? "").toLowerCase();
@@ -12,6 +20,13 @@ export function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.host = host.slice(4);
     url.port = "";
+    return NextResponse.redirect(url, 308);
+  }
+
+  const legal = LEGAL_ALIASES[pathname.replace(/\/$/, "")];
+  if (legal) {
+    const url = request.nextUrl.clone();
+    url.pathname = legal;
     return NextResponse.redirect(url, 308);
   }
 

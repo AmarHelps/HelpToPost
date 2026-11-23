@@ -9,9 +9,9 @@ const jbMono = JetBrains_Mono({ variable: "--font-jbmono-src", subsets: ["latin"
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: `${site.appName}: shoot it, fix it, post it everywhere`, template: `%s · ${site.name}` },
+  title: { default: `${site.name}: simple tools for people who make and sell`, template: `%s · ${site.name}` },
   description:
-    "Phone-first posting for market vendors, musicians and one-person businesses. Shoot a photo or video, fix it and post it to YouTube and Instagram in under a minute.",
+    "Amar Helps LLC builds simple apps for small businesses, makers and musicians, and offers design, prototyping and 3D printing. Home of HelpToPost.",
   openGraph: { siteName: site.name, type: "website" },
 };
 
