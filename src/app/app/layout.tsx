@@ -16,7 +16,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col">
       <header className="flex items-center gap-3 px-4 pb-3 pt-[max(env(safe-area-inset-top),16px)]">
         <Logo variant="mark" size={28} className="text-primary" />
-        <span className="ah-eyebrow">Help to post</span>
+        <span className="ah-eyebrow">HelpToPost</span>
         <span className="ah-badge ml-auto">Beta</span>
       </header>
       <main className="flex-1 px-4 pb-32">{children}</main>
