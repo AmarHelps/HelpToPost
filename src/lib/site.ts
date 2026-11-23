@@ -13,10 +13,11 @@ export const site = {
   legalEffectiveDate: "November 23, 2026",
 };
 
-// Where the app lives. In production set NEXT_PUBLIC_APP_URL=https://app.amarhelps.com and
-// NEXT_PUBLIC_APP_BASE="" (empty). Locally and on preview deploys the app is served under /app.
+// Where the app lives. In production set NEXT_PUBLIC_APP_URL=https://app.amarhelps.com; the app then
+// sits at the root of its subdomain. Locally and on preview deploys it is served under /app.
+// NEXT_PUBLIC_APP_BASE overrides the path prefix if ever needed.
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL || "/app";
-export const APP_BASE = process.env.NEXT_PUBLIC_APP_BASE ?? "/app";
+export const APP_BASE = process.env.NEXT_PUBLIC_APP_BASE ?? (APP_URL.startsWith("http") ? "" : "/app");
 
 /** Link to a page inside the app, from inside the app. */
 export function appPath(path = "/") {
