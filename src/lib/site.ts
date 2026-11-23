@@ -7,9 +7,9 @@ export const site = {
   appUrl: "https://app.amarhelps.com",
   email: "hello@amarhelps.com",
   // Who runs the service, as it appears in the legal pages.
-  operator: "Amar Helps",
+  operator: "Amar Helps LLC",
   // US state whose laws govern the Terms. Leave null until confirmed.
-  governingState: null as string | null,
+  governingState: "Texas" as string | null,
   legalEffectiveDate: "November 23, 2026",
 };
 
