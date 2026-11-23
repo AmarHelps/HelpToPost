@@ -28,7 +28,8 @@ export async function joinWaitlist(_prev: WaitlistState, formData: FormData): Pr
     method: "POST",
     headers: {
       apikey: key,
-      Authorization: `Bearer ${key}`,
+      // New sb_secret_ keys go only in the apikey header; legacy service_role JWTs also need Bearer.
+      ...(key.startsWith("sb_") ? {} : { Authorization: `Bearer ${key}` }),
       "Content-Type": "application/json",
       Prefer: "resolution=ignore-duplicates,return=minimal",
     },

@@ -25,7 +25,7 @@ npm run dev
 | `NEXT_PUBLIC_APP_URL` | `https://app.amarhelps.com` |
 | `NEXT_PUBLIC_APP_BASE` | *(empty)* |
 | `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API keys → service_role / secret key. Server only, never share it. |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API Keys → Secret keys → `sb_secret_…` (a legacy service_role key also works). Server only, never share it. |
 
 Preview deploys can leave the `NEXT_PUBLIC_*` vars unset; the app then lives at `/app`.
 
