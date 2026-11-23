@@ -9,3 +9,7 @@ create table if not exists public.waitlist (
 
 alter table public.waitlist enable row level security;
 -- No policies on purpose: the anon and authenticated roles get no access.
+
+-- Projects created with "Grant API access to new tables automatically" off
+-- give the Data API roles nothing on new tables, so grant the server role explicitly.
+grant select, insert on public.waitlist to service_role;
