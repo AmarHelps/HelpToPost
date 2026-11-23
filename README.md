@@ -2,7 +2,9 @@
 
 One Next.js project serves both:
 
-- **amarhelps.com**: landing page, waitlist, Privacy Policy (`/privacy`), Terms (`/terms`) and data deletion instructions (`/data-deletion`).
+- **amarhelps.com**: the Amar Helps LLC company home (`/`), with room for more apps and services.
+- **amarhelps.com/helptopost**: the HelpToPost landing page and waitlist.
+- **Legal pages, company level**: Privacy Policy (`/privacy`), Terms (`/terms`) and data deletion instructions (`/data-deletion`). These are the URLs to give Google and Meta. `/helptopost/privacy`, `/helptopost/terms` and `/helptopost/data-deletion` redirect to them, and old `amarhelps.com/#waitlist`-style links forward to `/helptopost`.
 - **app.amarhelps.com**: the phone-first PWA ("HelpToPost"). The code lives under `src/app/app/`; `src/proxy.ts` maps the `app.` subdomain onto it.
 
 Locally the app is at `http://localhost:3000/app`.

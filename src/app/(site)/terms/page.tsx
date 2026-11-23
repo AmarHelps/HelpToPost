@@ -14,7 +14,7 @@ export default function Terms() {
     <LegalPage title="Terms of Service">
       <p>
         These Terms are an agreement between you and {site.operator}, which is run by one person (&ldquo;I&rdquo;, &ldquo;me&rdquo;), for your use of {site.domain} and the{" "}
-        {site.appName} app (the &ldquo;Service&rdquo;). By using the Service you agree to these Terms and to my{" "}
+        {site.appName} app at app.{site.domain} (the &ldquo;Service&rdquo;). By using the Service you agree to these Terms and to my{" "}
         <Link href="/privacy">Privacy Policy</Link>. If you don&apos;t agree, please don&apos;t use the Service.
       </p>
 

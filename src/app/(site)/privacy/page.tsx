@@ -11,8 +11,9 @@ export default function Privacy() {
     <LegalPage title="Privacy Policy">
       <p>
         {site.operator} is run by one person (&ldquo;I&rdquo;, &ldquo;me&rdquo;). This policy explains what information I collect when you use the website at{" "}
-        {site.domain} and the {site.appName} app at app.{site.domain} (together, the &ldquo;Service&rdquo;), how I use it, and the choices you
-        have. The Service helps you edit photos and videos and publish them to social platforms such as YouTube and Instagram. Questions? Email {mail}.
+        {site.domain}, including the {site.appName} page at {site.domain}/helptopost, and the {site.appName} app at app.{site.domain}
+        (together, the &ldquo;Service&rdquo;), how I use it, and the choices you have. If I add other apps, this policy will name them before they
+        launch. The Service helps you edit photos and videos and publish them to social platforms such as YouTube and Instagram. Questions? Email {mail}.
       </p>
 
       <h2>Summary</h2>
