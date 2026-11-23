@@ -16,4 +16,4 @@ export class ConfigError extends Error {
 export const has = (...names: string[]) => names.every((n) => !!process.env[n]);
 
 export const googleReady = () => has("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "APP_SECRET");
-export const instagramReady = () => has("INSTAGRAM_APP_ID", "INSTAGRAM_APP_SECRET", "APP_SECRET");
+export const instagramReady = () => has("META_APP_ID", "META_APP_SECRET", "META_CONFIG_ID", "APP_SECRET");

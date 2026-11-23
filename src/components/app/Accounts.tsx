@@ -16,7 +16,8 @@ const MESSAGES: Record<string, string> = {
   "error:google": "Google did not finish connecting. Try again.",
   "error:youtube-scope": "HelpToPost needs permission to upload videos. Connect again and leave that box ticked.",
   "error:youtube-channel": "That Google account has no YouTube channel yet. Create one at youtube.com, then connect again.",
-  "error:instagram": "Instagram did not finish connecting. It needs a Business or Creator account. Try again.",
+  "error:instagram": "Instagram did not finish connecting. It needs a Business or Creator account in a Meta business portfolio. Try again.",
+  "error:instagram-account": "No Instagram professional account was shared. Connect again and tick your Instagram account when asked.",
   "error:google-setup": "YouTube connecting is not switched on yet.",
   "error:instagram-setup": "Instagram connecting is not switched on yet.",
 };

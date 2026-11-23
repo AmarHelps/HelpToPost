@@ -1,23 +1,24 @@
 import "server-only";
-import { decrypt, encrypt } from "./crypto";
-import { db } from "./db";
+import { decrypt } from "./crypto";
 import { env } from "./env";
 
-// Instagram API with Instagram Login (professional accounts, no Facebook Page needed).
-const GRAPH = "https://graph.instagram.com/v24.0";
-export const IG_SCOPES = ["instagram_business_basic", "instagram_business_content_publish"];
+// Instagram API with Unified Login (Meta's login for new apps). The person logs in with Facebook or Instagram,
+// picks their business portfolio and Instagram professional account, and the app receives a Business Integration
+// System User access token for that portfolio. No Facebook Page is needed. All calls go to graph.facebook.com.
+const VERSION = "v26.0";
+const GRAPH = `https://graph.facebook.com/${VERSION}`;
 
 export class InstagramError extends Error {}
 
 export function authUrl(redirectUri: string, state: string) {
-  const u = new URL("https://www.instagram.com/oauth/authorize");
+  const u = new URL(`https://www.facebook.com/${VERSION}/dialog/oauth`);
   u.search = new URLSearchParams({
-    enable_fb_login: "0",
-    force_reauth: "true",
-    client_id: env("INSTAGRAM_APP_ID"),
+    client_id: env("META_APP_ID"),
+    config_id: env("META_CONFIG_ID"),
     redirect_uri: redirectUri,
     response_type: "code",
-    scope: IG_SCOPES.join(","),
+    // Always offer both the Facebook and the Instagram login options.
+    prompt: "login",
     state,
   }).toString();
   return u.toString();
@@ -27,75 +28,58 @@ async function json(res: Response, what: string) {
   const j = await res.json().catch(() => ({}));
   if (!res.ok || j.error) {
     console.error(`[instagram] ${what}`, res.status, JSON.stringify(j));
-    const msg: string = j?.error?.error_user_msg || j?.error?.message || j?.error_message || "";
+    const msg: string = j?.error?.error_user_msg || j?.error?.message || "";
     if (j?.error?.code === 190 || res.status === 401) throw new InstagramError("reconnect");
     throw new InstagramError(msg ? `Instagram: ${msg}` : `Instagram ${what} failed (${res.status}).`);
   }
   return j;
 }
 
-/** Code → long-lived (60 day) token, plus the account's id and username. */
+const get = async (path: string, token: string, what: string, params: Record<string, string> = {}) =>
+  json(await fetch(`${GRAPH}/${path}?${new URLSearchParams({ ...params, access_token: token })}`, { cache: "no-store" }), what);
+
+/** Code → token, then the Instagram professional account the person shared. */
 export async function connect(code: string, redirectUri: string) {
-  const short = await json(
-    await fetch("https://api.instagram.com/oauth/access_token", {
-      method: "POST",
-      body: new URLSearchParams({
-        client_id: env("INSTAGRAM_APP_ID"),
-        client_secret: env("INSTAGRAM_APP_SECRET"),
-        grant_type: "authorization_code",
-        redirect_uri: redirectUri,
-        code: code.replace(/#_$/, ""),
-      }),
-      cache: "no-store",
-    }),
+  const t = await json(
+    await fetch(`${GRAPH}/oauth/access_token?${new URLSearchParams({
+      client_id: env("META_APP_ID"),
+      client_secret: env("META_APP_SECRET"),
+      redirect_uri: redirectUri,
+      code,
+    })}`, { cache: "no-store" }),
     "token exchange",
   );
-  const first = short.data?.[0] ?? short;
-  const long = await json(
-    await fetch(
-      `https://graph.instagram.com/access_token?${new URLSearchParams({
-        grant_type: "ig_exchange_token",
-        client_secret: env("INSTAGRAM_APP_SECRET"),
-        access_token: first.access_token,
-      })}`,
-      { cache: "no-store" },
-    ),
-    "long-lived token",
-  );
-  const me = await json(
-    await fetch(`${GRAPH}/me?fields=user_id,username,account_type,profile_picture_url&access_token=${encodeURIComponent(long.access_token)}`, { cache: "no-store" }),
-    "profile",
-  );
+  const token: string = t.access_token;
+  const accounts = await get("me/assigned_instagram_accounts", token, "accounts", { fields: "id,username" });
+  const ig = accounts.data?.[0] as { id: string; username?: string } | undefined;
+  if (!ig) throw new InstagramError("no-account");
+
+  let avatar: string | null = null;
+  try {
+    avatar = (await get(ig.id, token, "profile", { fields: "profile_picture_url" })).profile_picture_url ?? null;
+  } catch {}
+  let business: { id?: string; client_business_id?: string } = {};
+  try {
+    business = await get("me", token, "business", { fields: "client_business_id" });
+  } catch {}
+
   return {
-    token: long.access_token as string,
-    expiresAt: new Date(Date.now() + (long.expires_in ?? 5184000) * 1000).toISOString(),
-    userId: String(me.user_id ?? first.user_id),
-    username: me.username as string,
-    avatar: (me.profile_picture_url ?? null) as string | null,
-    scopes: String(first.permissions ?? IG_SCOPES.join(",")),
+    token,
+    // Configured to never expire; a value here means the configuration set an expiry.
+    expiresAt: t.expires_in ? new Date(Date.now() + t.expires_in * 1000).toISOString() : null,
+    userId: String(ig.id),
+    username: ig.username ?? "your account",
+    avatar,
+    businessId: business.client_business_id ?? null,
+    metaUserId: business.id ?? null,
   };
 }
 
-type Conn = { id: string; external_id: string; access_token_enc: string; expires_at: string | null; updated_at: string };
+type Conn = { access_token_enc: string; expires_at: string | null };
 
-/** A valid token for a stored connection. Long-lived tokens are refreshed once they are a day old, which resets their 60 days. */
 export async function instagramToken(conn: Conn): Promise<string> {
-  const token = decrypt(conn.access_token_enc);
-  const exp = conn.expires_at ? new Date(conn.expires_at).getTime() : 0;
-  if (exp && exp < Date.now()) throw new InstagramError("reconnect");
-  if (Date.now() - new Date(conn.updated_at).getTime() < 864e5) return token;
-  try {
-    const r = await json(await fetch(`https://graph.instagram.com/refresh_access_token?grant_type=ig_refresh_token&access_token=${encodeURIComponent(token)}`, { cache: "no-store" }), "token refresh");
-    await db.update("connections", `id=${db.eq(conn.id)}`, {
-      access_token_enc: encrypt(r.access_token),
-      expires_at: new Date(Date.now() + (r.expires_in ?? 5184000) * 1000).toISOString(),
-      updated_at: new Date().toISOString(),
-    });
-    return r.access_token;
-  } catch (e) {
-    console.warn("[instagram] refresh skipped", e);
-    return token;
-  }
+  if (conn.expires_at && new Date(conn.expires_at).getTime() < Date.now()) throw new InstagramError("reconnect");
+  return decrypt(conn.access_token_enc);
 }
 
 async function post(path: string, token: string, params: Record<string, string>) {
@@ -127,7 +111,7 @@ export async function createContainer(token: string, igUserId: string, items: Ig
 }
 
 export async function containerStatus(token: string, id: string): Promise<{ code: string; message?: string }> {
-  const j = await json(await fetch(`${GRAPH}/${id}?fields=status_code,status&access_token=${encodeURIComponent(token)}`, { cache: "no-store" }), "status");
+  const j = await get(id, token, "status", { fields: "status_code,status" });
   return { code: j.status_code ?? "IN_PROGRESS", message: j.status };
 }
 
@@ -146,8 +130,7 @@ export async function publish(token: string, igUserId: string, containerId: stri
   const { id } = await post(`${igUserId}/media_publish`, token, { creation_id: containerId });
   let permalink: string | null = null;
   try {
-    const j = await json(await fetch(`${GRAPH}/${id}?fields=permalink&access_token=${encodeURIComponent(token)}`, { cache: "no-store" }), "permalink");
-    permalink = j.permalink ?? null;
+    permalink = (await get(String(id), token, "permalink", { fields: "permalink" })).permalink ?? null;
   } catch {}
   return { id: String(id), permalink };
 }

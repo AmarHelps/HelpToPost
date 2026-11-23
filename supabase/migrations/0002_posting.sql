@@ -58,6 +58,11 @@ alter table public.posts enable row level security;
 
 grant select, insert, update, delete on public.app_users, public.connections, public.posts to service_role;
 
+-- Instagram (Meta Unified Login): the client's business portfolio and the Meta user id, used by Meta's
+-- deauthorize and data deletion callbacks. Safe to run again if this file was already run once.
+alter table public.connections add column if not exists meta_business_id text;
+alter table public.connections add column if not exists meta_user_id text;
+
 -- Private bucket for media on its way to YouTube and Instagram. The app hands out short-lived signed links only.
 insert into storage.buckets (id, name, public, allowed_mime_types)
 values ('media', 'media', false, array['image/jpeg', 'video/*'])

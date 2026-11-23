@@ -41,7 +41,7 @@ export default function Privacy() {
           and read your channel&apos;s basic details.
         </li>
         <li>
-          <strong>Instagram (Meta):</strong> your Instagram professional account ID, username, account type and profile picture, and access tokens
+          <strong>Instagram (Meta):</strong> your Instagram professional account ID, username and profile picture, the ID of the Meta business portfolio you choose to share, and access tokens
           that let me publish photos, carousels and Reels you create in the Service, and check whether a post was published.
         </li>
       </ul>

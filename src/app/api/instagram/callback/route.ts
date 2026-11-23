@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const back = (params: Record<string, string>) => NextResponse.redirect(appUrl(req, "/accounts", params));
   const s = await takeOAuthState(p.get("state"));
   if (!s || s.intent !== "instagram" || !s.uid) return back({ error: "expired" });
-  if (p.get("error") || !p.get("code")) return back({ error: p.get("error_reason") === "user_denied" ? "denied" : "instagram" });
+  if (p.get("error") || !p.get("code")) return back({ error: (p.get("error_reason") === "user_denied" || p.get("error") === "access_denied") ? "denied" : "instagram" });
 
   try {
     const ig = await connect(p.get("code")!, `${origin(req)}/api/instagram/callback`);
@@ -23,12 +23,14 @@ export async function GET(req: NextRequest) {
       access_token_enc: encrypt(ig.token),
       refresh_token_enc: null,
       expires_at: ig.expiresAt,
-      scopes: ig.scopes,
+      scopes: "instagram_basic,instagram_content_publish",
+      meta_business_id: ig.businessId,
+      meta_user_id: ig.metaUserId,
       updated_at: new Date().toISOString(),
     }, "user_id,platform");
     return back({ connected: "instagram" });
   } catch (e) {
     if (!(e instanceof InstagramError)) console.error("[instagram] callback", e);
-    return back({ error: "instagram" });
+    return back({ error: e instanceof InstagramError && e.message === "no-account" ? "instagram-account" : "instagram" });
   }
 }
