@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Amar Helps
 
-## Getting Started
+One Next.js project serves both:
 
-First, run the development server:
+- **amarhelps.com**: landing page, waitlist, Privacy Policy (`/privacy`), Terms (`/terms`) and data deletion instructions (`/data-deletion`).
+- **app.amarhelps.com**: the phone-first PWA ("Amar Helps Post"). The code lives under `src/app/app/`; `src/proxy.ts` maps the `app.` subdomain onto it.
+
+Locally the app is at `http://localhost:3000/app`.
+
+## Develop
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy (Vercel)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Import this repo in Vercel (framework: Next.js, no settings changes).
+2. Add domains `amarhelps.com`, `www.amarhelps.com` (redirects to the root) and `app.amarhelps.com`, and create the DNS records Vercel shows in Cloudflare (set them to "DNS only", grey cloud).
+3. Environment variables (Production):
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Name | Value |
+| --- | --- |
+| `NEXT_PUBLIC_APP_URL` | `https://app.amarhelps.com` |
+| `NEXT_PUBLIC_APP_BASE` | *(empty)* |
+| `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
+| `SUPABASE_SERVICE_ROLE_KEY` | Supabase → Project Settings → API keys → service_role / secret key. Server only, never share it. |
 
-## Learn More
+Preview deploys can leave the `NEXT_PUBLIC_*` vars unset; the app then lives at `/app`.
 
-To learn more about Next.js, take a look at the following resources:
+## Database
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run `supabase/migrations/0001_waitlist.sql` once in the Supabase SQL editor. The waitlist table has row-level security on and no policies, so only the server can read or write it.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Legal pages
 
-## Deploy on Vercel
+Names, contact email and the governing-law state are in `src/lib/site.ts`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Icons
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+`node scripts/make-icons.mjs` regenerates the PWA icons.
