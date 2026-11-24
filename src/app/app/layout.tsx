@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { AppNav } from "@/components/app/AppNav";
+import { AuthGate } from "@/components/app/Session";
 import { Logo } from "@/components/Logo";
 import { site } from "@/lib/site";
 
@@ -19,7 +21,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <span className="ah-eyebrow">HelpToPost</span>
         <span className="ah-badge ml-auto">Beta</span>
       </header>
-      <main className="flex-1 px-4 pb-32">{children}</main>
+      <main className="flex-1 px-4 pb-32">
+        <Suspense>
+          <AuthGate>{children}</AuthGate>
+        </Suspense>
+      </main>
       <AppNav />
     </div>
   );

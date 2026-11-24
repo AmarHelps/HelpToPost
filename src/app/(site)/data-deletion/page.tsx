@@ -12,7 +12,7 @@ export default function DataDeletion() {
 
       <h2>Delete everything</h2>
       <p>
-        Email {mail} from the address on your account with the subject &ldquo;Delete my data&rdquo;. I delete your account, media, posts,
+        In the app, open Accounts and tap Delete my account. Or email {mail} from the address on your account with the subject &ldquo;Delete my data&rdquo;. I delete your account, media, posts,
         templates, connected-account tokens and waitlist entry within 30 days and email you when it is done. Posts already published to YouTube or
         Instagram stay on those platforms; you can delete them there.
       </p>
